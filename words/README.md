@@ -19,6 +19,6 @@ The word lists on the main PuzzleDeck instance will be available in the followin
 - 14 letter words: 14.txt
 - 15 letter words: 15.txt
 
-## For Everyone else
+## For Everyone else:
 
-Well aren't you sly. The integrity of the puzzles greatly depends on the secrecy of the word lists. They aren't available here to prevent people like you from cheating.
+Well, aren't you sly. The integrity of the puzzles greatly depends on the secrecy of the word lists. They aren't available here to prevent people like you from cheating.
