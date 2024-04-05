@@ -1,0 +1,20 @@
+{
+  "name": "puzzle_deck",
+  "version": "1.0.1",
+  "description": "Puzzle Deck bot for Arashi",
+  "main": "bot.js",
+  "dependencies": {
+    "@ericw9079/chatcontext": "^1.0.0",
+    "@ericw9079/logger": "^3.0.1",
+    "@ericw9079/twitch-api": "^1.0.4",
+    "tmi.js": "^1.9.0-pre.1"
+  },
+  "scripts": {
+    "start": "node .",
+    "start-watch": "nodemon -w ./ ."
+  },
+  "author": "ericw9079",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

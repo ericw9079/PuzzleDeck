@@ -1,0 +1,11 @@
+# API Config, needed for auto mode
+.env
+
+# Bot Config, needed to connect bot to twitch chat
+config.json
+
+# Bot packages
+node_modules/
+
+# Word lists
+words/*.txt
