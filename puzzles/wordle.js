@@ -103,7 +103,7 @@ const handleCommand = (context) => {
  * @param {ChatContext} context - Chat context for the how to play command
  */
 const howToPlay = (context) => {
-	const howTo = "Use !guess to make a guess. All guesses must be 5 letters in length. The result is encoded as * = right letter wrong spot, _ = letter isn't in the word, or letter = right letter wrong spot.";
+	const howTo = "Use !guess to make a guess. All guesses must be 5 letters in length. The result is encoded as * = right letter wrong spot, _ = letter isn't in the word, or letter = right letter right spot.";
 	context.say(howTo);
 };
 
