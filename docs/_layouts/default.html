@@ -8,7 +8,7 @@
 			.header h5 {
 				margin-top: 0px;
 			}
-			.header selected {
+			.header .selected {
 				display: inline-block;
 			}
 		</style>
@@ -22,7 +22,7 @@
 				by ericw9079
 			</h5>
 			<nav>
-			{% assign pages = site.html_pages | sort "priority", "last"%}
+			{% assign pages = site.html_pages | sort: "priority", "last"%}
 			{% for p in pages %}
 				{% if p.url == page.url %}
 					<p class="selected">{{ p.title | default: p.name }}</p>
