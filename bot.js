@@ -210,7 +210,7 @@ function onChatHandler (target, tags, msg, self) {
 			context.say(`Current: Puzzle ${puzzle}`);
 		}
 		else {
-			context.say("No puzzle loaded, have a mod load one with !puzzle puzzle");
+			context.say(`No puzzle loaded,${isLockedOut ? " have a mod" : ""} load one with !puzzle puzzle`);
 		}
 		return;
 	}
@@ -272,7 +272,7 @@ function onChatHandler (target, tags, msg, self) {
 		return;
 	}
 	
-	if (isMod && (commandName == "!lockout")) {
+	if (isMod && commandName == "!lockout") {
 		isLockedOut = !isLockedOut;
 		if (isLockedOut) {
 			context.say("Management commands now restricted to Mods only");
@@ -282,7 +282,7 @@ function onChatHandler (target, tags, msg, self) {
 		return;
 	}
 	
-	if (isMod && (commandName == "!auto")) {
+	if (isMod && commandName == "!auto") {
 		isAutoMode = !isAutoMode;
 		if (isAutoMode) {
 			context.say("Auto mode activated");
@@ -307,6 +307,17 @@ function onChatHandler (target, tags, msg, self) {
 		} else {
 			context.say("Auto mode disabled");
 		}
+		return;
+	}
+	
+	if (isMod && commandName == "!status") {
+		const stautsResults = [
+			`Current Puzzle ${puzzle ?: "None"}.`,
+			`Puzzle Status: ${running ? "In Progress" : "Not Active"}.`,
+			`Auto mode: ${isAutoMode ? "Active" : "Not Active"}.`
+			`Controls: ${isLockedOut ? "Mod Only" : "Everyone"}.`
+		];
+		context.say(statusResults.join(" "));
 		return;
 	}
 	

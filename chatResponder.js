@@ -12,7 +12,6 @@ const inString = (string, strs) => {
 };
 
 const helpMsg = `
-	Help (all): !help.
 	View currently loaded puzzle (all): !puzzle.
 	List Puzzles (all): !puzzles, !listpuzzles, !puzzlelist, !listpuzzle.
 	Load puzzle (all): !puzzle <name of puzzle to load>.
@@ -22,6 +21,7 @@ const helpMsg = `
 	How to play (all): !howtoplay, !htp.
 	Restrict bot management (mod): !lockout.
 	Toggle auto mode (mod): !auto.
+	View Status (mod): !status.
 `;
 
 /**
@@ -43,6 +43,10 @@ module.exports = (context) => {
 		// About
 		context.say('PuzzleDeck is a bot created by ericw9079 that allows for adaptations of a variety of word puzzles to be played in twitch chat.');
 		logger.log(`* Responded to about request from ${context.displayName}`);
+		return true;
+	} else if (inString(context.botChatMsg, ['ping'])) {
+		context.say('Pong!');
+		logger.log(`* Responded to ping request from ${context.displayName}`);
 		return true;
 	}
 	// No chat response
