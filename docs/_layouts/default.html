@@ -9,6 +9,7 @@
 				margin-top: 0px;
 			}
 			.header selected {
+				display: inline-block;
 			}
 		</style>
 	</head>
@@ -21,7 +22,7 @@
 				by ericw9079
 			</h5>
 			<nav>
-			{% for p in site.html_pages |  %}
+			{% for p in site.html_pages | sort "priority", "last" %}
 				{% if p.url == page.url %}
 					<p class="selected">{{ p.title | default: p.name }}</p>
 				{% else %}
