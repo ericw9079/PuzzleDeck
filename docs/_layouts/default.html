@@ -1,24 +1,35 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <style>
-      .header h1 {
-        margin-bottom: 0px;
-      }
-      .header h5 {
-        margin-top: 0px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="header">
-      <h1>
-        PuzzleDeck
-      </h1>
-      <h5>
-        by ericw9079
-      </h5>
-    </div>
-    {{ content }}
-  </body>
+	<head>
+		<style>
+			.header h1 {
+				margin-bottom: 0px;
+			}
+			.header h5 {
+				margin-top: 0px;
+			}
+			.header selected {
+			}
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<h1>
+				PuzzleDeck
+			</h1>
+			<h5>
+				by ericw9079
+			</h5>
+			<nav>
+			{% for p in site.pages %}
+				{% if p.url == page.url %}
+					<a href={{ p.url }} class="selected">{{ p.title | default: p.name }}</a>
+				{% else %}
+					<a href={{ p.url }}>{{ p.title | default: p.name }}</a>
+				{% endif %}
+			{% endfor %}
+			</nav>
+		</div>
+		{{ content }}
+	</body>
 </html>
