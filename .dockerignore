@@ -1,0 +1,10 @@
+.dockerignore
+node_modules
+Dockerfile
+logs
+*.json
+!config.json
+!package.json
+!package-lock.json
+*.sh
+puzzles
