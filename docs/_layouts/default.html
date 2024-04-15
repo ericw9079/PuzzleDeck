@@ -21,9 +21,9 @@
 				by ericw9079
 			</h5>
 			<nav>
-			{% for p in site.pages %}
+			{% for p in site.html_pages |  %}
 				{% if p.url == page.url %}
-					<a href={{ p.url }} class="selected">{{ p.title | default: p.name }}</a>
+					<p class="selected">{{ p.title | default: p.name }}</p>
 				{% else %}
 					<a href={{ p.url }}>{{ p.title | default: p.name }}</a>
 				{% endif %}
