@@ -6,7 +6,7 @@
   "dependencies": {
     "@ericw9079/chatcontext": "^1.0.0",
     "@ericw9079/logger": "^3.0.1",
-    "@ericw9079/twitch-api": "^1.0.4",
+    "@ericw9079/twitch-api": "^1.0.5",
     "tmi.js": "^1.9.0-pre.1"
   },
   "scripts": {
