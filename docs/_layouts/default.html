@@ -12,10 +12,10 @@
 				display: inline-block;
 			}
 		</style>
-		{% if page.url == "home.html" %}
+		{% if page.url == "/" %}
 			<title>PuzzleDeck</title>
 		{% endif %}
-		<title>PuzzleDeck | {{ page.title | default: page.name }} | {{ page.url }}</title>
+		<title>PuzzleDeck | {{ page.title | default: page.name }}</title>
 	</head>
 	<body>
 		<div class="header">
