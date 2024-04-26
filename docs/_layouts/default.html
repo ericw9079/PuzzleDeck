@@ -14,8 +14,9 @@
 		</style>
 		{% if page.url == "/" %}
 			<title>PuzzleDeck</title>
+		{% else %}
+			<title>PuzzleDeck | {{ page.title | default: page.name }}</title>
 		{% endif %}
-		<title>PuzzleDeck | {{ page.title | default: page.name }}</title>
 	</head>
 	<body>
 		<div class="header">
