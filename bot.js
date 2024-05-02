@@ -42,9 +42,9 @@ const opts = {
 const client = new tmi.client(opts);
 
 // Register our event handlers (defined below)
-client.on('chat', onChatHandler);
-client.on('connected', onConnectedHandler);
-client.on('disconnected', onDisconnectedHandler);
+client.on('chat', onTwitchChatHandler);
+client.on('connected', onTwitcConnectedHandler);
+client.on('disconnected', onTwitchDisconnectedHandler);
 
 // Connect to Twitch
 client.connect();
@@ -177,7 +177,7 @@ const startPuzzle = (context) => {
 };
 
 // Called every time a message comes in
-function onChatHandler (target, tags, msg, self) {
+function onTwitchChatHandler (target, tags, msg, self) {
 	if (self) { return; } // Ignore messages from the bot
 	
 	lastMessage = Date.now();
@@ -185,6 +185,11 @@ function onChatHandler (target, tags, msg, self) {
 	// Create an instance of the ChatContext for passing to response modules
 	const context = ChatContext.create(client, target, tags, msg, running);
 	
+	// Call the message handler
+	onMessage(context);
+}
+
+function onMessage(context) {
 	const commandName = context.command;
 	const isMod = context.isMod;
 	
@@ -348,13 +353,13 @@ function onChatHandler (target, tags, msg, self) {
 }
 
 // Called every time the bot connects to Twitch chat
-function onConnectedHandler (addr, port) {
+function onTwitchConnectedHandler (addr, port) {
 	logger.log(`* Connected to ${addr}:${port}`);
 	logger.log(`* Joined ${channel}`);
 	liveChecker.init();
 }
 
-function onDisconnectedHandler (reason) {
+function onTwitchDisconnectedHandler (reason) {
 	logger.log(`Got disconnected with reason ${reason}`);
 	liveChecker.cancel();
 }
