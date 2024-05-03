@@ -15,9 +15,9 @@ const config = require(configFile);
 
 // If the config option is provided by environment variable use that instead of config
 // This prevents accidental config overwrites
-const token = process.env.TOKEN ?? config.token;
-const userId = process.env.USER ?? config.user;
-const channel = process.env.CHANNEL ?? config.channel;
+const token = process.env.TOKEN ?? config.twitchToken;
+const userId = process.env.USER ?? config.twitchUser;
+const channel = process.env.CHANNEL ?? config.twitchChannel;
 
 // Update the environment variables to reflect current config
 process.env.TOKEN = token;
