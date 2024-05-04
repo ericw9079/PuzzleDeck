@@ -84,8 +84,8 @@ class ChatClient extends EventEmitter {
 						break;
 					case ChatEvent.MessageDeleted:
 						const { messageDeletedDetails: { deletedMessageId } } = snippet;
-						if (this.#MembershipGifts[deletedMessageId]) {
-							delete this.#MembershipGifts[deleteMessageId];
+						if (this.#membershipGifts[deletedMessageId]) {
+							delete this.#membershipGifts[deleteMessageId];
 						}
 						this.emit(ClientEvent.MessageDeleted, deletedMessageId, authorDetails, message);
 						break;
@@ -100,18 +100,18 @@ class ChatClient extends EventEmitter {
 						this.emit(ClientEvent.NewSponsor, memberLevelName ?? '', isUpgrade, authorDetails, message);
 						break;
 					case ChatEvent.MemberMilestone:
-						const { memberMilestoneChatDetails: { userComment, memberMonth, memberLevelName } } = snippet;
-						this.emit(ClientEvent.MemberMilestone, userComment ?? '', memberMonth, memberLevelName ?? '', authorDetails, message);
+						const { memberMilestoneChatDetails: { userComment, memberMonth, memberLevelName: memberLevel } } = snippet;
+						this.emit(ClientEvent.MemberMilestone, userComment ?? '', memberMonth, memberLevel ?? '', authorDetails, message);
 						break;
 					case ChatEvent.SuperChat:
 						const { superChatDetails } = snippet;
-						const { amountDisplayString: amount, userComment } = superChatDetails;
-						this.emit(ClientEvent.SuperChat, userComment, amount, superChatDetails, authorDetails, message);
+						const { amountDisplayString: amount, userComment: comment } = superChatDetails;
+						this.emit(ClientEvent.SuperChat, comment, amount, superChatDetails, authorDetails, message);
 						break;
 					case ChatEvent.SuperSticker:
 						const { superStickerDetails } = snippet;
-						const { superStickerMetadata: { altText }, amountDisplayString: amount } = superStickerDetails;
-						this.emit(ClientEvent.SuperSticker, altText, amount, superStickerDetails, authorDetails, message);
+						const { superStickerMetadata: { altText }, amountDisplayString: amount1 } = superStickerDetails;
+						this.emit(ClientEvent.SuperSticker, altText, amount1, superStickerDetails, authorDetails, message);
 						break;
 					case ChatEvent.Chat:
 						const { textMessageDetails: { messageText } } = snippet;
@@ -137,14 +137,14 @@ class ChatClient extends EventEmitter {
 						this.emit(ClientEvent.MembershipGift, giftMembershipsCount, giftMembershipsLevelName ?? '', authorDetails, message);
 						break;
 					case ChatEvent.GiftedMembership:
-						const { giftMembershipReceivedDetails: { memberLevelName, associatedMembershipGiftingMessageId } } = snippet;
-						this.#membershipGiftingDetails[associatedMembershipGiftingMessageId].count++;
-						const giftingMessage = this.#membershipGiftingDetails[associatedMembershipGiftingMessageId];
+						const { giftMembershipReceivedDetails: { memberLevelName: levelName, associatedMembershipGiftingMessageId } } = snippet;
+						this.#membershipGifts[associatedMembershipGiftingMessageId].count++;
+						const giftingMessage = this.#membershipGifts[associatedMembershipGiftingMessageId];
 						if (giftingMessage.count >= giftingMessage.totalCount) {
 							// All gifted membership events accounted for, remove membership gifting message
-							delete this.#MembershipGifts[associatedMembershipGiftingMessageId];
+							delete this.#membershipGifts[associatedMembershipGiftingMessageId];
 						}
-						this.emit(ClientEvent.GiftedMembership, memberLevelName, giftingMessage, authorDetails, message);
+						this.emit(ClientEvent.GiftedMembership, levelName, giftingMessage, authorDetails, message);
 						break;
 					default:
 						logger.log(`Unknown type: ${messageType}`);
