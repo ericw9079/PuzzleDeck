@@ -183,7 +183,7 @@ function onTwitchChatHandler (target, tags, msg, self) {
 	lastMessage = Date.now();
 	
 	// Create an instance of the ChatContext for passing to response modules
-	const context = ChatContext.create(client, target, tags, msg, running);
+	const context = ChatContext.createTwitch(client, target, tags, msg, running);
 	
 	// Call the message handler
 	onMessage(context);

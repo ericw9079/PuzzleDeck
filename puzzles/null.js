@@ -7,7 +7,7 @@
 /*
  * Context contains the following properties:
  * id: the message id (string)
- * tags: all tags provided by the twitch IRC server (object)
+ * tags/fullContext: all tags provided by the twitch IRC server or the youtube API. The structure of these properties vary depending on context source (object)
  * displayName: name of the user that sent the chat message (string)
  * msg: chat message (string)
  * command: the command sent (ie. the first word of the message) (string)
@@ -16,6 +16,7 @@
  * isBotMentioned: whether the message mentions the bot (boolean)
  * botChatMsg: same as msg without bot tag (string)
  * isCommand: whether the message is potentially a command (boolean)
+ * botUser: name of the bot user (string)
  * 
  * Context also contains the following functions:
  * say(message): send a new message to the channel

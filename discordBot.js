@@ -1,6 +1,6 @@
 const { Client, GatewayIntentBits } = require('discord.js');
 const logger = require('@ericw9079/logger');
-const { ChatClient, enums: { ConnectStatus } } = require('./youtube');
+const { ChatClient, enums: { ConnectStatus } } = require('@ericw9079/youtube-api');
 const { discordToken } = require('./config.json');
 
 const client = new Client({ intents: [ GatewayIntentBits.Guilds ] });
@@ -51,7 +51,6 @@ client.on('interactionCreate', async (interaction) => {
 		return;
 	}
 	if (commandName == 'connect') {
-		if ()
 		const ytVideo = interaction.options.getString('youtube_video');
 		const matches = ytVideo.match(videoIdRegex);
 		const vidId = matches?.[1] || matches?.[2] || matches?.[3];
