@@ -1,13 +1,15 @@
 /*
  * Main Puzzledeck bot
- * © ericw9079 2022
+ * © ericw9079 2024
  */
 const tmi = require('tmi.js');
 const fs = require('fs');
 const logger = require('@ericw9079/logger');
+const { ChatClient: YoutubeChatClient, enums: { ClientEvent } } = require('@ericw9079/youtube-api');
 const chatResponder = require("./chatResponder.js");
 const ChatContext = require('./ChatContext.js');
 const liveChecker = require('./liveChecker.js');
+const discordBot = require('./discordBot.js');
 
 // Config for connecting to twitch (to keep from accidentally leaking on stream)
 const configFile = "./config.json";
@@ -40,11 +42,19 @@ const opts = {
 
 // Create a client with our options
 const client = new tmi.client(opts);
+const youtubeClient = new YoutubeChatClient();
+
+// Activate the discord bot
+discordBot(youtubeClient);
 
 // Register our event handlers (defined below)
 client.on('chat', onTwitchChatHandler);
-client.on('connected', onTwitcConnectedHandler);
+client.on('connected', onTwitchConnectedHandler);
 client.on('disconnected', onTwitchDisconnectedHandler);
+
+youtubeClient.on(ClientEvent.Connected, onYoutubeConnectedHandler);
+youtubeClient.on(ClientEvent.Disconnected, onYoutubeDisconnectedHandler);
+youtubeClient.on(ClientEvent.Message, onYoutubeMessageHandler);
 
 // Connect to Twitch
 client.connect();
@@ -176,14 +186,23 @@ const startPuzzle = (context) => {
 	return false;
 };
 
-// Called every time a message comes in
-function onTwitchChatHandler (target, tags, msg, self) {
+// Called every time a twitch message comes in
+function onTwitchChatHandler(target, tags, msg, self) {
 	if (self) { return; } // Ignore messages from the bot
 	
 	lastMessage = Date.now();
 	
-	// Create an instance of the ChatContext for passing to response modules
+	// Create an instance of the TwitchChatContext for passing to response modules
 	const context = ChatContext.createTwitch(client, target, tags, msg, running);
+	
+	// Call the message handler
+	onMessage(context);
+}
+
+// Called for every youtube message
+function onYoutubeMessageHandler(messageText, authorDetails, message) {
+	// Create an instance of the TwitchChatContext for passing to response modules
+	const context = ChatContext.createYoutube(youtubeClient, messageText, authorContext, message, running);
 	
 	// Call the message handler
 	onMessage(context);
@@ -353,13 +372,40 @@ function onMessage(context) {
 }
 
 // Called every time the bot connects to Twitch chat
-function onTwitchConnectedHandler (addr, port) {
+function onTwitchConnectedHandler(addr, port) {
 	logger.log(`* Connected to ${addr}:${port}`);
 	logger.log(`* Joined ${channel}`);
 	liveChecker.init();
 }
 
-function onTwitchDisconnectedHandler (reason) {
+// Called every time the bot gets disconnected from Twitch chat
+function onTwitchDisconnectedHandler(reason) {
 	logger.log(`Got disconnected with reason ${reason}`);
 	liveChecker.cancel();
+}
+
+function onYoutubeConnectedHandler() {
+	youtubeClient.say("!!BETA!! Connected to chat and ready to go. NOTE: Not every command is supported at this time");
+}
+
+function onYoutubeDisconnectedHandler() {
+	logger.info("Shutdown triggered by youtube disconnection");
+	if (shutdownTimeout) {
+		clearTimeout(shutdownTimeout);
+	}
+	shutdownTimeout = undefined;
+	isAutoMode = false;
+	const context = ChatContext.createDummy(running);
+	if (running && puzzle) {
+		try{
+			require(`./puzzles/${puzzle}.js`).end(context);
+		}
+		catch (e) {
+			logger.error(e.message);
+			console.log(e); // Log the error
+			files.splice(files.indexOf(`${puzzle}.js`),1); // Remove the puzzle from the list (since it errored while ending)
+			puzzle = ""; // Unload the puzzle
+		}
+		running = context.running;
+	}
 }

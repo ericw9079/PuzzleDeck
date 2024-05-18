@@ -29,7 +29,7 @@ module.exports = {
 		context.running = running;
 		return context;
 	},
-	createYoutube: (youtubeClient, messageText, authorContext, message) => {
+	createYoutube: (youtubeClient, messageText, authorContext, message, running) => {
 		const context = new YoutubeChatContext(youtubeClient, messageText, authorContext, message);
 		Object.defineProperties(context, {
 			"running": {
