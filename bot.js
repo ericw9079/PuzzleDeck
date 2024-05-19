@@ -201,8 +201,8 @@ function onTwitchChatHandler(target, tags, msg, self) {
 
 // Called for every youtube message
 function onYoutubeMessageHandler(messageText, authorDetails, message) {
-	// Create an instance of the TwitchChatContext for passing to response modules
-	const context = ChatContext.createYoutube(youtubeClient, messageText, authorContext, message, running);
+	// Create an instance of the YoutubeChatContext for passing to response modules
+	const context = ChatContext.createYoutube(youtubeClient, messageText, authorDetails, message, running);
 	
 	// Call the message handler
 	onMessage(context);
@@ -336,7 +336,7 @@ function onMessage(context) {
 	
 	if (isMod && commandName == "!status") {
 		const stautsResults = [
-			`Current Puzzle ${puzzle ?: "None"}.`,
+			`Current Puzzle ${puzzle ? puzzle : "None"}.`,
 			`Puzzle Status: ${running ? "In Progress" : "Not Active"}.`,
 			`Auto mode: ${isAutoMode ? "Active" : "Not Active"}.`
 			`Controls: ${isLockedOut ? "Mod Only" : "Everyone"}.`
@@ -385,7 +385,7 @@ function onTwitchDisconnectedHandler(reason) {
 }
 
 function onYoutubeConnectedHandler() {
-	youtubeClient.say("!!BETA!! Connected to chat and ready to go. NOTE: Not every command is supported at this time");
+	youtubeClient.send("!!BETA!! Connected to chat and ready to go. NOTE: Not every command is supported at this time");
 }
 
 function onYoutubeDisconnectedHandler() {
