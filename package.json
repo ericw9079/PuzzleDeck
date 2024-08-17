@@ -4,10 +4,10 @@
   "description": "Puzzle Deck bot for Arashi",
   "main": "bot.js",
   "dependencies": {
-    "@ericw9079/chatcontext": "^2.0.0",
+    "@ericw9079/chatcontext": "^2.0.1",
     "@ericw9079/logger": "^3.0.4",
     "@ericw9079/twitch-api": "^1.0.5",
-    "@ericw9079/youtube-api": "^1.0.0",
+    "@ericw9079/youtube-api": "^1.0.2",
     "discord.js": "^14.12.1",
     "tmi.js": "^1.9.0-pre.1"
   },
