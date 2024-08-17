@@ -77,7 +77,7 @@ client.on('interactionCreate', async (interaction) => {
 						await interaction.editReply(`:ballot_box_with_check: Already connected to youtube chat for ${vidId}. If the bot does not respond, try disconnecting and reconnecting it`);
 						break;
 					default:
-						await interaction.editReply(":x: Got an unexpected result when connecting to youtub");
+						await interaction.editReply(":x: Got an unexpected result when connecting to youtube");
 						break;
 				} 
 			} catch (e) {
